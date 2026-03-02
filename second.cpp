@@ -3,17 +3,17 @@
 #include <vector>
 using namespace std;
 
-vector<int> vector_init(int N, int r)
+vector<double> vector_init(int N, int r)
 {
-    vector<int> layer;
-    for (int i = 0; i < N; i++)
+    vector<double> layer;
+    for (double i = 0.0; i < N; i++)
     {
         layer.push_back(pow(i, r));
     }
     return layer;
 }
 
-vector<int> next_layer(vector<int> layer)
+vector<double> next_layer(vector<double> layer)
 {
     if (layer.size() <= 1)
         return {layer[0]}; // ничего не меняем
@@ -28,20 +28,20 @@ vector<int> next_layer(vector<int> layer)
     return layer;
 }
 
-void print_vector(vector<int> input)
+void print_vector(vector<double> input)
 {
-    for (int x : input)
+    for (double x : input)
         std::cout << x << " ";
     cout << endl;
 }
 
 int main()
 {
-    int r = 10; // Степень
+    int r = 11; // Степень
     // int N = 10; // Кол-во чисел
     int N = r + 1;
     int i;
-    vector<int> spisok = vector_init(N, r);
+    vector<double> spisok = vector_init(N, r);
     print_vector(spisok);
     for (i = 0; i < r; i++)
     {
