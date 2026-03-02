@@ -1,9 +1,18 @@
+// 0 1  32   243   1024    3125
+//  1 31  211   781    2101
+//   30 180  570   1320
+//    150  390  750
+//       240 360
+//         120 = 1*2*3*4*5 = 5!
+// Если продолжить увеличивать степени, то мы заметим,
+// что низ "айсберга" всегда будет равен факториалу
+// той степени, в которую мы возводим числа верхушки
 #include <iostream>
 #include <math.h>
 #include <vector>
 using namespace std;
 
-vector<double> vector_init(int N, int r)
+vector<double> vector_init(int r, int N)
 {
     vector<double> layer;
     for (double i = 0.0; i < N; i++)
@@ -35,18 +44,17 @@ void print_vector(vector<double> input)
     cout << endl;
 }
 
-int main()
-{
-    int r = 11; // Степень
-    // int N = 10; // Кол-во чисел
-    int N = r + 1;
-    int i;
-    vector<double> spisok = vector_init(N, r);
-    print_vector(spisok);
-    for (i = 0; i < r; i++)
-    {
-        spisok = next_layer(spisok);
-        print_vector(spisok);
-    }
-    return 0;
-};
+// int main()
+// {
+//     int r = 3; // Степень
+//     int N = r - 1;
+//     int i;
+//     vector<double> spisok = vector_init(r, N);
+//     print_vector(spisok);
+//     for (i = 0; i < r; i++)
+//     {
+//         spisok = next_layer(spisok);
+//         print_vector(spisok);
+//     }
+//     return 0;
+// };
