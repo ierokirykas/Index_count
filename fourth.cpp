@@ -27,6 +27,40 @@
 //    Или наоборот, зная все бета числа для конкретного r, можно вычислять квадраты чисел
 //    (Что имеет гораздо большее применение)
 //    Формула примерно такая: k_r = $\sum\limits_{i=0}^k n_1i
+// ____Добавлено вычисление делителей____
+// 5. Рассмотрим пример print_betas(25, 3, true) с выводом делителей
+// r = 5; n = 3; 120
+// 2 3 4
+// r = 7; n = 3; 1680
+// 2 3 4 5
+// r = 9; n = 3; 17640
+// 2 3 4 5 7
+// r = 11; n = 3; 168960
+// 2 3 4 5 8 -11-
+// r = 13; n = 3; 1561560
+// 2 3 4 5 7 -11- -13-
+// r = 15; n = 3; 14217840
+// 2 3 4 5 6 7 -13-
+// r = 17; n = 3; 128615880
+// 2 3 4 5 -17- 67
+// r = 19; n = 3; 1160164320
+// 2 3 4 5 7 -17- -19-
+// r = 21; n = 3; 10451964600
+// 2 3 4 5 7 9 11 15 -19- 21
+// r = 23; n = 3; 94109624400
+// 2 3 4 5 10 11 -23- 107
+// r = 25; n = 3; 847154391720
+// 2 3 4 5 7 13 -23-
+// Сразу, что можно заметить - это "начальные делители" (2,3,4) - они есть везде.
+// делитель 5 также есть в начальных, кроме самого малого значения (120)
+// 6. Увеличивающиеся дополнительные делители
+// Если посмотреть на остальные делители, то можно заметить, как они появляются в порядке возрастания
+// Для удобства, выделю их дефисами.
+// Но! если посмотреть на r = 27 мы увидим прерывание закономерности
+// b_3 = 3^27 - 4*(2^27 - 2) - 3 = 7 625 060 614 080
+// С делителями [2 3 4 5 6 7 13 14 1637]
+//
+
 #include <vector>
 #include <iomanip>
 #include <iostream>
@@ -36,11 +70,11 @@ using namespace std;
 bool add_zero = false;
 
 // Зачем инициализировать 2 стороны, если можно работать с одной?
-vector<double> half_init(float r)
+vector<long long int> half_init(float r)
 {
-    vector<double> layer;
+    vector<long long int> layer;
     int N = (int)r / 2 + ((int)r % 2);
-    double i = 0.0;
+    long long int i = 0.0;
     for (i; i < N + 1; i++)
     {
         layer.push_back(pow(i, r));
@@ -48,7 +82,7 @@ vector<double> half_init(float r)
     return layer;
 }
 
-vector<double> make_iceberg(vector<double> layer)
+vector<long long int> make_iceberg(vector<long long int> layer)
 {
     if (layer.size() <= 1)
         return {layer[0]}; // ничего не меняем
@@ -67,16 +101,16 @@ vector<double> make_iceberg(vector<double> layer)
     return layer;
 }
 
-void print_vector(vector<double> input)
+void print_vector(vector<long long int> input)
 {
-    for (double x : input)
-        std::cout << std::fixed << std::setprecision(0) << x << " ";
+    for (long long int x : input)
+        std::cout << x << " ";
     cout << endl;
 }
 
 void print_iceberg(int r)
 {
-    vector<double> spisok = half_init(r);
+    vector<long long int> spisok = half_init(r);
 
     print_vector(spisok);
     for (int j = 0; j < r; j++)
@@ -87,10 +121,10 @@ void print_iceberg(int r)
     cout << endl;
 }
 
-vector<double> get_centers(int r)
+vector<long long int> get_centers(int r)
 {
-    vector<double> centers;
-    vector<double> spisok = half_init(r);
+    vector<long long int> centers;
+    vector<long long int> spisok = half_init(r);
     centers.push_back(spisok.front());
     for (int i = 0; i < r; i++)
     {
@@ -101,10 +135,10 @@ vector<double> get_centers(int r)
 }
 
 // Я писал этот код час назад, но уже ничего не понимаю =(
-vector<double> get_betas(int r, int top = 999)
+vector<long long int> get_betas(int r, int top = 999)
 {
-    vector<double> centers;
-    vector<double> spisok = half_init(r);
+    vector<long long int> centers;
+    vector<long long int> spisok = half_init(r);
     for (int i = 0; i < r; i++)
     {
         // cout << "||| i =" << i << "; top = " << top << ";\n";
@@ -126,9 +160,30 @@ vector<double> get_betas(int r, int top = 999)
     return centers;
 }
 
-void print_betas(int max_r, int beta_n)
+long long int get_beta(int r, int top)
 {
-    vector<double> centers;
+
+    vector<long long int> v = get_betas(r, top - 1);
+    // print_vector(v);
+    return v.at(top - 1);
+}
+
+vector<long long int> get_dividers(long long int beta)
+{
+    vector<long long int> dividers;
+    for (int i = 2; i < sqrt(beta) + 1; i++)
+    {
+        if (beta % i == 0)
+        {
+            dividers.push_back(i);
+            beta /= i;
+        }
+    }
+    return dividers;
+}
+void print_betas(int max_r, int beta_n, bool dividers = true)
+{
+    vector<long long int> centers;
     for (int i = 1; i < max_r + 1; i += 2)
     {
         add_zero = false;
@@ -136,7 +191,13 @@ void print_betas(int max_r, int beta_n)
         // print_vector(centers);
         cout << "r = " << i << "; n = " << beta_n << "; ";
         if (centers.size() > beta_n - 1)
+        {
             cout << centers.at(beta_n - 1) << endl;
+            if (dividers)
+            {
+                print_vector(get_dividers(centers.at(beta_n - 1)));
+            }
+        }
         else
         {
             cout << "-" << endl;
@@ -145,6 +206,14 @@ void print_betas(int max_r, int beta_n)
 }
 int main()
 {
-    print_betas(11, 2);
+    // print_betas(33, 3);
+    // print_vector(get_dividers(7625060614080));
+    vector<long long int> centers;
+    centers = get_centers(15);
+    for (auto n : centers)
+    {
+        cout << n << " ";
+        print_vector(get_dividers(n));
+    }
     return 0;
 }
