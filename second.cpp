@@ -46,7 +46,7 @@ void print_vector(vector<double> input)
 
 // int main()
 // {
-//     int r = 3; // Степень
+//     int r = 5; // Степень
 //     int N = r - 1;
 //     int i;
 //     vector<double> spisok = vector_init(r, N);

@@ -59,7 +59,6 @@
 // Но! если посмотреть на r = 27 мы увидим прерывание закономерности
 // b_3 = 3^27 - 4*(2^27 - 2) - 3 = 7 625 060 614 080
 // С делителями [2 3 4 5 6 7 13 14 1637]
-//
 
 #include <vector>
 #include <iomanip>
@@ -75,7 +74,7 @@ vector<long long int> half_init(float r)
     vector<long long int> layer;
     int N = (int)r / 2 + ((int)r % 2);
     long long int i = 0.0;
-    for (i; i < N + 1; i++)
+    for (i; i < N + 4; i++)
     {
         layer.push_back(pow(i, r));
     }
@@ -111,7 +110,7 @@ void print_vector(vector<long long int> input)
 void print_iceberg(int r)
 {
     vector<long long int> spisok = half_init(r);
-
+    add_zero = false;
     print_vector(spisok);
     for (int j = 0; j < r; j++)
     {
@@ -123,6 +122,7 @@ void print_iceberg(int r)
 
 vector<long long int> get_centers(int r)
 {
+    add_zero = false;
     vector<long long int> centers;
     vector<long long int> spisok = half_init(r);
     centers.push_back(spisok.front());
@@ -206,10 +206,11 @@ void print_betas(int max_r, int beta_n, bool dividers = true)
 }
 int main()
 {
-    // print_betas(33, 3);
+    print_betas(21, 2);
     // print_vector(get_dividers(7625060614080));
+    print_iceberg(5);
     vector<long long int> centers;
-    centers = get_centers(15);
+    centers = get_centers(5);
     for (auto n : centers)
     {
         cout << n << " ";
