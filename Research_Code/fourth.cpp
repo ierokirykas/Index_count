@@ -99,7 +99,6 @@ vector<long long int> make_iceberg(vector<long long int> layer)
     add_zero = !add_zero;
     return layer;
 }
-
 void print_vector(vector<long long int> input)
 {
     for (long long int x : input)
@@ -206,15 +205,16 @@ void print_betas(int max_r, int beta_n, bool dividers = true)
 }
 int main()
 {
-    print_betas(21, 2);
+    print_betas(21, 8);
+
     // print_vector(get_dividers(7625060614080));
     print_iceberg(5);
-    vector<long long int> centers;
-    centers = get_centers(5);
-    for (auto n : centers)
-    {
-        cout << n << " ";
-        print_vector(get_dividers(n));
-    }
+    // vector<long long int> centers;
+    // centers = get_centers(5);
+    // for (auto n : centers)
+    // {
+    //     cout << n << " ";
+    //     print_vector(get_dividers(n));
+    // }
     return 0;
 }
