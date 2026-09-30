@@ -29,22 +29,22 @@ vector<int> gamma_gen(int N)
         else
             last[0] = 0;
         // Идём вверх по лестнице
-        // if (last.size() == 1 and last[0] == 0)
-        //     M[i] = last;
-        // else
-        // {
-        //     for (int s = 0; s < M.size(); s++)
-        //     {
-        //         vector<int> X = M[s];
-        //         last = first;
-        //         for (int j = 0; j < X.size(); j++)
-        //             first[j] -= X[j];
-        //         M[s] = last;
-        //     }
-        // }
+        if (last.size() == 1 and last[0] == 0)
+            M[i] = last;
+        else
+        {
+            for (int s = 0; s < M.size(); s++)
+            {
+                vector<int> X = M[s];
+                last = first;
+                for (int j = 0; j < X.size(); j++)
+                    first[j] -= X[j];
+                M[s] = last;
+            }
+        }
 
-        // for (vector<int> X : M)
-        //     print_vector(X);
+        for (vector<int> X : M)
+            print_vector(X);
         last = first;
         print_vector(last);
         cout << endl;
