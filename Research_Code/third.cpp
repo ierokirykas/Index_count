@@ -90,7 +90,7 @@ void improved_print(vector<double> input, bool center_only = false)
     auto getCenter = [](vector<double> &v) -> double
     {
         // Отношения с логикой: Всё сложно
-        return v.at(v.size() / 2 - (v.size() % 2 == 0) + (v.size() % 2 == 0 and r % 2 == 0));
+        return v.at(v.size() / 2 - (v.size() % 2 == 0) + ((v.size() % 2 == 0) and (r % 2 == 0)));
     };
 
     if (center_only)
