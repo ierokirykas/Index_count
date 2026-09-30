@@ -1,0 +1,28 @@
+# Артефакты сборки
+*.exe
+*.obj
+*.o
+*.pdb
+*.ilk
+build/
+out/
+x64/
+
+# IDE
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Логи
+*.log
+
+# Система
+.DS_Store
+Thumbs.db
+._*
